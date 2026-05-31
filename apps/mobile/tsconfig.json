@@ -1,0 +1,9 @@
+{
+  "extends": "@alldare/tsconfig/expo.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
