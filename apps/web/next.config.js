@@ -2,6 +2,7 @@ const { withExpo } = require("@expo/next-adapter");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withExpo({
+  output: 'export',
   transpilePackages: ["@alldare/ui", "react-native-web", "nativewind"],
   webpack: (config) => {
     config.resolve.alias = {
