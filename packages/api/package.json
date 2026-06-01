@@ -4,7 +4,9 @@
   "private": true,
   "main": "./src/index.ts",
   "dependencies": {
-    "@alldare/types": "workspace:*"
+    "@alldare/types": "*",
+    "@types/isomorphic-fetch": "^0.0.39",
+    "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

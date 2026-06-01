@@ -1,6 +1,11 @@
 {
   "name": "alldare-frontend",
   "private": true,
+  "packageManager": "npm@11.12.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -10,6 +15,5 @@
   "devDependencies": {
     "turbo": "^2.0.0",
     "prettier": "^3.0.0"
-  },
-  "packageManager": "pnpm@9.0.0"
+  }
 }
