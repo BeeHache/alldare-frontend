@@ -18,18 +18,18 @@ export class ButtonComponent {
   onPress = output<MouseEvent>();
 
   get buttonClasses(): string {
-    const base = 'flex items-center justify-center p-4 rounded-xl font-bold text-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ';
+    const base = 'alldare-button p-4 rounded-xl transition-all ';
     let variantClass = '';
 
     switch (this.variant()) {
       case 'secondary':
-        variantClass = 'bg-slate-700 text-white hover:bg-slate-600';
+        variantClass = 'btn-secondary';
         break;
       case 'outline':
-        variantClass = 'bg-transparent border border-slate-700 text-white hover:bg-slate-800';
+        variantClass = 'btn-outline';
         break;
       default:
-        variantClass = 'bg-blue-600 text-white hover:bg-blue-500';
+        variantClass = 'btn-primary';
         break;
     }
 

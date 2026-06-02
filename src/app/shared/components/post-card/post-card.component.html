@@ -1,15 +1,15 @@
-<app-card [className]="'mb-6 ' + className()">
+<app-card [className]="'post-card mb-6 ' + className()">
   <!-- Header -->
-  <div class="flex flex-row items-center mb-4">
-    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3 text-white font-bold">
+  <div class="post-header mb-4">
+    <div class="avatar mr-3">
       {{ post().authorId.substring(0, 2).toUpperCase() }}
     </div>
-    <div>
-      <h3 class="text-white font-bold text-base leading-tight">
+    <div class="flex flex-col">
+      <h3 class="author-name">
         User {{ post().authorId.substring(0, 8) }}
       </h3>
-      <p class="text-slate-400 text-xs">
-        {{ post().createdAt | date }}
+      <p class="post-date">
+        {{ post().createdAt | date:'medium' }}
       </p>
     </div>
   </div>
@@ -18,7 +18,7 @@
   <div class="mb-4">
     @switch (post().postType) {
       @case (PostType.TEXT) {
-        <p class="text-white text-lg leading-relaxed">
+        <p class="post-content">
           {{ post().content['text'] }}
         </p>
       }
@@ -26,7 +26,7 @@
         <div>
           <img
             [src]="post().content['mediaUrl']"
-            class="w-full aspect-square rounded-lg mb-4 object-cover"
+            class="w-full post-image"
             alt="Post content"
           />
           @if (post().content['caption']) {
@@ -36,8 +36,8 @@
       }
       @case (PostType.VIDEO) {
         <div>
-          <div class="w-full aspect-video bg-slate-800 rounded-lg mb-4 flex items-center justify-center">
-            <span class="text-slate-400 italic">Video Player Placeholder</span>
+          <div class="video-placeholder mb-4">
+            <span>Video Player Placeholder</span>
           </div>
           @if (post().content['caption']) {
             <p class="text-white text-base">{{ post().content['caption'] }}</p>
@@ -52,9 +52,9 @@
 
   <!-- Tags -->
   @if (post().content['tags'] && post().content['tags'].length > 0) {
-    <div class="flex flex-row flex-wrap mt-2">
+    <div class="flex flex-row flex-wrap mt-2 gap-2">
       @for (tag of post().content['tags']; track tag) {
-        <span class="bg-slate-800 px-3 py-1 rounded-full mr-2 mb-2 text-blue-400 text-xs">
+        <span class="tag-badge">
           #{{ tag }}
         </span>
       }

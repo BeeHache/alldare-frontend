@@ -1,1 +1,53 @@
-/* Home specific styles */
+.home-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.welcome-screen {
+  background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+}
+
+.brand-nav {
+  background: rgba(2, 6, 23, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feed-column {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+}
+
+.trending-tag {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #3b82f6;
+    background: #1e293b;
+    
+    span {
+      color: #3b82f6;
+    }
+  }
+
+  span {
+    color: #94a3b8;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}

@@ -1,1 +1,50 @@
-/* Button specific styles can go here */
+.alldare-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  
+  /* Modern bounce effect */
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #334155;
+  
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #475569;
+  }
+}
+
+.btn-secondary {
+  background: #334155;
+  color: #f8fafc;
+  
+  &:hover:not(:disabled) {
+    background: #475569;
+  }
+}

@@ -1,1 +1,78 @@
-/* PostCard specific styles can go here */
+.post-card {
+  /* Inherits alldare-card styles */
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  border: 2px solid #1e293b;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.author-name {
+  color: #f8fafc;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.post-date {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.post-content {
+  color: #e2e8f0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.post-image {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.tag-badge {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
+  }
+}
+
+.video-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1e293b;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #334155;
+  color: #475569;
+  font-style: italic;
+}
