@@ -1,0 +1,63 @@
+<app-card [className]="'mb-6 ' + className()">
+  <!-- Header -->
+  <div class="flex flex-row items-center mb-4">
+    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3 text-white font-bold">
+      {{ post().authorId.substring(0, 2).toUpperCase() }}
+    </div>
+    <div>
+      <h3 class="text-white font-bold text-base leading-tight">
+        User {{ post().authorId.substring(0, 8) }}
+      </h3>
+      <p class="text-slate-400 text-xs">
+        {{ post().createdAt | date }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="mb-4">
+    @switch (post().postType) {
+      @case (PostType.TEXT) {
+        <p class="text-white text-lg leading-relaxed">
+          {{ post().content['text'] }}
+        </p>
+      }
+      @case (PostType.IMAGE) {
+        <div>
+          <img
+            [src]="post().content['mediaUrl']"
+            class="w-full aspect-square rounded-lg mb-4 object-cover"
+            alt="Post content"
+          />
+          @if (post().content['caption']) {
+            <p class="text-white text-base">{{ post().content['caption'] }}</p>
+          }
+        </div>
+      }
+      @case (PostType.VIDEO) {
+        <div>
+          <div class="w-full aspect-video bg-slate-800 rounded-lg mb-4 flex items-center justify-center">
+            <span class="text-slate-400 italic">Video Player Placeholder</span>
+          </div>
+          @if (post().content['caption']) {
+            <p class="text-white text-base">{{ post().content['caption'] }}</p>
+          }
+        </div>
+      }
+      @default {
+        <p class="text-slate-500 italic">Unsupported post type</p>
+      }
+    }
+  </div>
+
+  <!-- Tags -->
+  @if (post().content['tags'] && post().content['tags'].length > 0) {
+    <div class="flex flex-row flex-wrap mt-2">
+      @for (tag of post().content['tags']; track tag) {
+        <span class="bg-slate-800 px-3 py-1 rounded-full mr-2 mb-2 text-blue-400 text-xs">
+          #{{ tag }}
+        </span>
+      }
+    </div>
+  }
+</app-card>

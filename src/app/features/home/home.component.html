@@ -1,0 +1,81 @@
+@if (authService.isLoading()) {
+  <div class="flex items-center justify-center bg-black min-h-screen">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+} @else {
+  @if (!authService.user()) {
+    <!-- Welcome Screen -->
+    <main class="flex min-h-screen flex-col items-center justify-center p-24 bg-slate-950">
+      <h1 class="text-7xl font-extrabold text-white mb-4">Alldare</h1>
+      <p class="text-2xl text-slate-400 mb-12 text-center max-w-2xl">
+        The high-performance platform for media content and shared experiences.
+      </p>
+      
+      <div class="flex gap-4">
+        <a routerLink="/auth/login">
+          <app-button title="Sign In" className="w-48"></app-button>
+        </a>
+        <a routerLink="/auth/register">
+          <app-button title="Join Now" variant="outline" className="w-48"></app-button>
+        </a>
+      </div>
+    </main>
+  } @else {
+    <!-- Main Feed Layout -->
+    <div class="flex flex-col min-h-screen bg-black">
+      <!-- Top Nav -->
+      <nav class="h-16 border-b border-slate-800 flex flex-row items-center justify-between px-6 bg-slate-950/50 backdrop-blur-md sticky top-0 z-10">
+        <span class="text-2xl font-black text-white tracking-tighter">ALLDARE</span>
+        <div class="flex flex-row items-center gap-4">
+          <span class="text-slate-400 hidden sm:inline">Hello, {{ authService.user()?.login }}</span>
+          <app-button 
+            title="Logout" 
+            (onPress)="authService.logout()" 
+            variant="outline" 
+            className="px-4 py-2 h-10 w-24 text-sm"
+          ></app-button>
+        </div>
+      </nav>
+
+      <div class="flex-1 flex flex-row w-full max-w-6xl mx-auto">
+        <!-- Feed Content -->
+        <main class="flex-1 max-w-2xl border-x border-slate-800/50 px-4 py-8">
+          <h2 class="text-2xl font-bold text-white mb-8">For You</h2>
+
+          @if (isFeedLoading()) {
+            <div class="flex justify-center py-12">
+              <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          } @else if (feed().length > 0) {
+            @for (post of feed(); track post.id) {
+              <app-post-card [post]="post"></app-post-card>
+            }
+          } @else {
+            <div class="items-center py-20 bg-slate-900/30 rounded-3xl border border-dashed border-slate-700 flex flex-col justify-center">
+              <p class="text-slate-400 text-lg mb-6 text-center px-8">
+                Your feed is empty. Follow some creators to see their posts here!
+              </p>
+              <app-button title="Discover Creators" variant="secondary" className="w-64"></app-button>
+            </div>
+          }
+          
+          <div class="h-20"></div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="hidden lg:flex w-80 p-6 pt-8">
+          <div class="sticky top-24">
+            <h3 class="text-white font-bold text-lg mb-4 uppercase tracking-wider text-slate-500">Trending Tags</h3>
+            <div class="flex flex-row flex-wrap gap-2">
+              @for (tag of ['alldare', 'angular', 'tech', 'social', 'media', 'signals']; track tag) {
+                <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group">
+                  <span class="text-slate-300 text-sm group-hover:text-blue-400">#{{ tag }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  }
+}
