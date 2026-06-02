@@ -14,3 +14,16 @@ export interface PostResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface TextPostContent {
+  text: string;
+  tags?: string[];
+}
+
+export interface PostRequest {
+  id?: string;
+  authorId: string;
+  postType: PostType;
+  content: TextPostContent | any;
+  publishedAt?: string;
+}

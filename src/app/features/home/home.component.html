@@ -42,6 +42,8 @@
         <main class="flex-1 max-w-2xl border-x border-slate-800/50 px-4 py-8">
           <h2 class="text-2xl font-bold text-white mb-8">For You</h2>
 
+          <app-create-post (postCreated)="loadFeed()"></app-create-post>
+
           @if (isFeedLoading()) {
             <div class="flex justify-center py-12">
               <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500"></div>
