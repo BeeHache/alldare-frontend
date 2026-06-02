@@ -1,7 +1,7 @@
-<div class="login-page-wrapper flex items-center justify-center p-4 bg-black min-h-screen">
+<div class="login-page-wrapper flex items-center justify-center p-4 md:p-8 bg-black min-h-screen">
   <app-card className="w-full max-w-md border-slate-800 shadow-2xl">
-    <h1 class="login-title text-4xl font-black text-white mb-2 tracking-tighter uppercase">Welcome Back</h1>
-    <p class="text-slate-400 mb-10 text-base font-medium">Access your Alldare dashboard</p>
+    <h1 class="login-title text-3xl md:text-4xl font-black text-white mb-2 tracking-tighter uppercase">Welcome Back</h1>
+    <p class="text-slate-400 mb-8 md:mb-10 text-sm md:text-base font-medium">Access your Alldare dashboard</p>
 
     <app-input
       label="Login"
@@ -30,12 +30,12 @@
       title="Sign In"
       (onPress)="handleLogin()"
       [loading]="isLoading()"
-      className="mt-2 w-full shadow-lg"
+      className="mt-2 w-full shadow-lg h-12"
     ></app-button>
 
-    <div class="mt-10 mb-8 flex flex-row justify-center items-center">
+    <div class="mt-8 md:mt-10 mb-6 md:mb-8 flex flex-row justify-center items-center">
       <div class="h-[1px] flex-1 bg-slate-800"></div>
-      <span class="mx-6 text-slate-600 text-xs font-bold tracking-widest uppercase">Social login</span>
+      <span class="mx-4 md:mx-6 text-slate-600 text-[10px] md:text-xs font-bold tracking-widest uppercase">Social login</span>
       <div class="h-[1px] flex-1 bg-slate-800"></div>
     </div>
 
@@ -46,7 +46,7 @@
       className="w-full h-12"
     ></app-button>
 
-    <div class="mt-10 text-center">
+    <div class="mt-8 md:mt-10 text-center">
       <p class="text-slate-500 text-sm font-medium">
         New to the platform?
         <a routerLink="/auth/register" class="text-blue-500 font-bold ml-1 hover:underline transition-all">

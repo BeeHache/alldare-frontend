@@ -28,6 +28,8 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use `computed()` for derived state
 - Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
 - Strictly separate templates and styles into their own files (`.html` and `.scss`). Do NOT use inline templates or styles.
+- Assume responsive, mobile-first design for all components. Use Tailwind responsive prefixes (`sm:`, `md:`, `lg:`) to adapt layouts.
+- Prioritize perceived performance by using skeleton loaders during async operations.
 - Prefer Reactive forms instead of Template-driven ones
 - Do NOT use `ngClass`, use `class` bindings instead
 - Do NOT use `ngStyle`, use `style` bindings instead

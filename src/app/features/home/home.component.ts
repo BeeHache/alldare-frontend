@@ -5,12 +5,13 @@ import { AuthService } from '../../core/services/auth.service';
 import { FeedService } from '../../core/services/feed.service';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
+import { PostSkeletonComponent } from '../../shared/components/post-skeleton/post-skeleton.component';
 import { CreatePostComponent } from '../posts/create-post/create-post.component';
 import { PostResponse } from '../../core/models/post.model';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterLink, ButtonComponent, PostCardComponent, CreatePostComponent],
+  imports: [CommonModule, RouterLink, ButtonComponent, PostCardComponent, PostSkeletonComponent, CreatePostComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

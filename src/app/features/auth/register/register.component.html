@@ -1,7 +1,7 @@
-<div class="register-page-wrapper flex items-center justify-center p-4 bg-black min-h-screen">
+<div class="register-page-wrapper flex items-center justify-center p-4 md:p-8 bg-black min-h-screen">
   <app-card className="w-full max-w-md border-slate-800 shadow-2xl">
-    <h1 class="text-4xl font-black text-white mb-2 tracking-tighter uppercase">Create Account</h1>
-    <p class="text-slate-400 mb-10 text-base font-medium">Join the Alldare creator community</p>
+    <h1 class="text-3xl md:text-4xl font-black text-white mb-2 tracking-tighter uppercase">Create Account</h1>
+    <p class="text-slate-400 mb-8 md:mb-10 text-sm md:text-base font-medium">Join the Alldare creator community</p>
 
     <app-input
       label="Login"
@@ -36,10 +36,10 @@
       title="Create Account"
       (onPress)="handleRegister()"
       [loading]="isLoading()"
-      className="mt-2 w-full shadow-lg"
+      className="mt-2 w-full shadow-lg h-12"
     ></app-button>
 
-    <div class="mt-10 text-center border-t border-slate-800 pt-8">
+    <div class="mt-8 md:mt-10 text-center border-t border-slate-800 pt-8">
       <p class="text-slate-500 text-sm font-medium">
         Already have an account?
         <a routerLink="/auth/login" class="text-blue-500 font-bold ml-1 hover:underline transition-all">
