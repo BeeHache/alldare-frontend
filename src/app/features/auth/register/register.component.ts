@@ -62,4 +62,8 @@ export class RegisterComponent {
   handleGoogleSso() {
     window.location.href = this.authService.getGoogleSsoUrl();
   }
+
+  handleGithubSso() {
+    window.location.href = this.authService.getGithubSsoUrl();
+  }
 }

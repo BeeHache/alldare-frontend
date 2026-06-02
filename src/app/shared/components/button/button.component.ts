@@ -18,7 +18,12 @@ export class ButtonComponent {
   onPress = output<MouseEvent>();
 
   get buttonClasses(): string {
-    const base = 'alldare-button p-4 rounded-xl transition-all ';
+    const base = 'alldare-button rounded-xl transition-all ';
+    // Note: Removed 'p-4' if height or padding is explicitly set
+    const hasHeight = this.className().includes('h-');
+    const hasPadding = this.className().includes('p-');
+    const defaultPadding = (hasHeight || hasPadding) ? '' : 'p-4 ';
+    
     let variantClass = '';
 
     switch (this.variant()) {
@@ -33,6 +38,6 @@ export class ButtonComponent {
         break;
     }
 
-    return base + variantClass + ' ' + this.className();
+    return base + defaultPadding + variantClass + ' ' + this.className();
   }
 }

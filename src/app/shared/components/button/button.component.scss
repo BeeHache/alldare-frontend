@@ -7,10 +7,10 @@
   cursor: pointer;
   outline: none;
   border: none;
+  width: 100%;
   
-  /* Modern bounce effect */
   &:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
   }
 
   &:disabled {
@@ -22,6 +22,7 @@
 
 .btn-primary {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
   
   &:hover:not(:disabled) {
@@ -32,11 +33,12 @@
 
 .btn-outline {
   background: transparent;
-  border: 1px solid #334155;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Much more visible than slate-700 */
+  color: #f8fafc;
   
   &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.05);
-    border-color: #475569;
+    border-color: rgba(255, 255, 255, 0.4);
   }
 }
 

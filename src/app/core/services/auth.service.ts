@@ -96,6 +96,11 @@ export class AuthService {
     return `/oauth2/authorization/google`;
   }
 
+  getGithubSsoUrl(): string {
+    // This initiates the OAuth2 flow where alldare-auth acts as a client to GitHub
+    return `/oauth2/authorization/github`;
+  }
+
   exchangeCodeForToken(code: string): Observable<LoginResponse> {
     const redirectUri = window.location.origin + "/api/auth/callback/alldare";
     const params = {
