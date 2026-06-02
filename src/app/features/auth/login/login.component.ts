@@ -56,4 +56,8 @@ export class LoginComponent {
   handleSsoRedirect() {
     window.location.href = this.authService.getSsoUrl();
   }
+
+  handleGoogleSso() {
+    window.location.href = this.authService.getGoogleSsoUrl();
+  }
 }

@@ -91,6 +91,11 @@ export class AuthService {
     return `/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid%20profile&state=${state}`;
   }
 
+  getGoogleSsoUrl(): string {
+    // This initiates the OIDC flow where alldare-auth acts as a client to Google
+    return `/oauth2/authorization/google`;
+  }
+
   exchangeCodeForToken(code: string): Observable<LoginResponse> {
     const redirectUri = window.location.origin + "/api/auth/callback/alldare";
     const params = {

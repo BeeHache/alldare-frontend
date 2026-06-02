@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { FeedService } from '../../core/services/feed.service';
+import { FeatureFlagService } from '../../core/services/feature-flag.service';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { PostCardComponent } from '../../shared/components/post-card/post-card.component';
 import { PostSkeletonComponent } from '../../shared/components/post-skeleton/post-skeleton.component';
@@ -18,12 +19,17 @@ import { PostResponse } from '../../core/models/post.model';
 export class HomeComponent implements OnInit {
   protected authService = inject(AuthService);
   private feedService = inject(FeedService);
+  protected featureFlags = inject(FeatureFlagService);
 
   feed = signal<PostResponse[]>([]);
   isFeedLoading = signal(false);
 
   ngOnInit() {
     this.loadFeed();
+  }
+
+  isExperimentalEnabled(): boolean {
+    return this.featureFlags.isEnabled('experimental-posts');
   }
 
   loadFeed() {
