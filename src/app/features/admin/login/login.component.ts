@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../../shared/components/card/card.component';
-import { SsoButtonsComponent } from '../../../shared/components/sso-buttons/sso-buttons.component';
+import { LoginFormComponent } from '../../../shared/components/login-form/login-form.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-admin-login',
   imports: [
     CommonModule,
     CardComponent,
-    SsoButtonsComponent
+    LoginFormComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class AdminLoginComponent {
 }

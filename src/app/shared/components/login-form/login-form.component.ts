@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { InputComponent } from '../input/input.component';
 import { ButtonComponent } from '../button/button.component';
-import { SsoButtonsComponent } from '../sso-buttons/sso-buttons.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,8 +12,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     InputComponent,
-    ButtonComponent,
-    SsoButtonsComponent
+    ButtonComponent
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'

@@ -2,8 +2,8 @@ import { Injectable, signal, computed, inject, PLATFORM_ID } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Account } from '../models/account.model';
-import { RegisterRequest, RegisterResponse, LoginResponse } from '../models/auth.model';
-import { tap, catchError, of, Observable } from 'rxjs';
+import { RegisterRequest, LoginResponse } from '../models/auth.model';
+import { tap, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -47,10 +47,6 @@ export class AuthService {
     } else {
       this._isLoading.set(false);
     }
-  }
-
-  register(data: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>('/api/v1/auth/register', data);
   }
 
   login(data: RegisterRequest): Observable<LoginResponse> {

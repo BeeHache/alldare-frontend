@@ -1,17 +1,8 @@
 <div class="login-page-wrapper flex items-center justify-center p-4 md:p-8 bg-black min-h-screen">
   <app-card [className]="'w-full max-w-md border-slate-800 shadow-2xl'">
-    <h1 class="login-title text-4xl font-black text-white mb-2 tracking-tighter uppercase">Welcome Back</h1>
+    <h1 class="login-title text-4xl font-black text-white mb-2 tracking-tighter uppercase">Welcome</h1>
     <p class="text-slate-400 mb-10 text-base font-medium">Access your Alldare dashboard</p>
 
-    <app-login-form></app-login-form>
-
-    <div class="mt-10 text-center">
-      <p class="text-slate-500 text-sm font-medium">
-        New to the platform?
-        <a routerLink="/auth/register" class="text-blue-500 font-bold ml-1 hover:underline transition-all">
-          Create account
-        </a>
-      </p>
-    </div>
+    <app-sso-buttons></app-sso-buttons>
   </app-card>
 </div>
