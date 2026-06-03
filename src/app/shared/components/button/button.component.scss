@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .alldare-button {
   display: flex;
   align-items: center;
@@ -33,7 +38,7 @@
 
 .btn-outline {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Much more visible than slate-700 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #f8fafc;
   
   &:hover:not(:disabled) {

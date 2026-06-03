@@ -1,0 +1,31 @@
+<app-input
+  label="Login"
+  [value]="loginValue()"
+  (valueChange)="loginValue.set($event)"
+  placeholder="Username or email"
+  [error]="error() && !loginValue() ? 'Required' : ''"
+></app-input>
+
+<app-input
+  label="Password"
+  [value]="passwordValue()"
+  (valueChange)="passwordValue.set($event)"
+  placeholder="••••••••"
+  [secureTextEntry]="true"
+  [error]="error() && !passwordValue() ? 'Required' : ''"
+></app-input>
+
+@if (error()) {
+  <p class="text-red-500 mb-6 text-center text-sm font-medium bg-red-500/10 p-3 rounded-xl border border-red-500/20">
+    {{ error() }}
+  </p>
+}
+
+<app-button
+  title="Sign In"
+  (onPress)="handleLogin()"
+  [loading]="isLoading()"
+  [className]="'mt-2 w-full shadow-lg h-12'"
+></app-button>
+
+<app-sso-buttons></app-sso-buttons>
