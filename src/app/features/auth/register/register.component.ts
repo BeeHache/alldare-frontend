@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { SsoButtonsComponent } from '../../../shared/components/sso-buttons/sso-buttons.component';
@@ -11,7 +11,8 @@ import { SsoButtonsComponent } from '../../../shared/components/sso-buttons/sso-
     SsoButtonsComponent
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
 }

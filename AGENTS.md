@@ -1,56 +1,65 @@
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+You are an expert in TypeScript, Angular, Nginx/OpenResty, and scalable web application development. You write functional, maintainable, performant, and accessible code following modern best practices.
+
+## Project Context
+This repository is the **Central Entrypoint** for the Alldare platform. It contains:
+1.  **Angular Frontend:** A high-performance reactive web application.
+2.  **API Gateway:** An OpenResty (Nginx + Lua) layer for routing, SSL termination, and edge security.
 
 ## TypeScript Best Practices
 
-- Use strict type checking
-- Prefer type inference when the type is obvious
-- Avoid the `any` type; use `unknown` when type is uncertain
+- Use strict type checking.
+- Prefer type inference when the type is obvious.
+- Avoid the `any` type; use `unknown` when type is uncertain.
 
 ## Angular Best Practices
 
-- Always use standalone components over NgModules
-- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
-- Use signals for state management
-- Implement lazy loading for feature routes
-- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
-- Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
+- **Versions:** This project uses Angular v21+.
+- **Components:** Always use standalone components over NgModules.
+- **Rule:** Must NOT set `standalone: true` inside Angular decorators. It is the default in the current version.
+- **State:** Use **Signals** for state management and reactive logic.
+- **Performance:** Set `changeDetection: ChangeDetectionStrategy.OnPush` in the `@Component` decorator.
+- **Routing:** Implement lazy loading for feature routes.
+- **Host Bindings:** Do NOT use `@HostBinding` or `@HostListener`. Use the `host` object in the `@Component` decorator instead.
+- **Images:** Use `NgOptimizedImage` for all static assets (note: does not work for inline base64).
+
+### Components & UI
+- **Single Responsibility:** Keep components small and focused.
+- **API:** Use `input()` and `output()` functions instead of decorators.
+- **Derived State:** Use `computed()` for all derived values.
+- **Structure:** Strictly separate templates and styles into their own files (`.html` and `.scss`). 
+  - **Exception:** The global `src/styles.css` is a plain CSS file for Tailwind v3 compatibility.
+- **Design:** Assume mobile-first, responsive design using Tailwind CSS v3.
+- **Tailwind Version:** This project uses **Tailwind CSS v3.4.19**. Do NOT attempt to use v4 features yet.
+- **Perceived Performance:** Prioritize skeleton loaders during async operations.
+- **Forms:** Prefer Reactive forms over Template-driven ones.
+
+## Gateway & Edge Standards (OpenResty)
+
+- **Config Location:** All gateway logic resides in the `gateway/` directory.
+- **Security:** JWT signatures MUST be verified at the gateway using Lua (`verify_jwt.lua`) before being forwarded.
+- **Identity:** On successful verification, inject `X-User-ID` and `X-User-Roles` headers for downstream services.
+- **Upstreams:** Use Nginx variables for service URLs to prevent startup crashes if a backend is unreachable.
+- **HTTPS:** Redirect all port 80 traffic to 443 with a 301 status.
 
 ## Accessibility Requirements
 
 - It MUST pass all AXE checks.
 - It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
 
-### Components
+## State Management (Signals)
 
-- Keep components small and focused on a single responsibility
-- Use `input()` and `output()` functions instead of decorators
-- Use `computed()` for derived state
-- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
-- Strictly separate templates and styles into their own files (`.html` and `.scss`). Do NOT use inline templates or styles.
-- Assume responsive, mobile-first design for all components. Use Tailwind responsive prefixes (`sm:`, `md:`, `lg:`) to adapt layouts.
-- Prioritize perceived performance by using skeleton loaders during async operations.
-- Prefer Reactive forms instead of Template-driven ones
-- Do NOT use `ngClass`, use `class` bindings instead
-- Do NOT use `ngStyle`, use `style` bindings instead
-- When using external templates/styles, use paths relative to the component TS file.
-
-## State Management
-
-- Use signals for local component state
-- Use `computed()` for derived state
-- Keep state transformations pure and predictable
-- Do NOT use `mutate` on signals, use `update` or `set` instead
+- Use signals for local component state.
+- Keep state transformations pure and predictable.
+- Do NOT use `mutate` on signals; use `update` or `set`.
 
 ## Templates
 
-- Keep templates simple and avoid complex logic
-- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- Use the async pipe to handle observables
-- Do not assume globals like (`new Date()`) are available.
+- Use native control flow (`@if`, `@for`, `@switch`) instead of legacy directives.
+- Use the `async` pipe to handle observables.
+- Do not assume globals like `new Date()` are available in templates.
 
 ## Services
 
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Use the `inject()` function instead of constructor injection
+- Design services around a single responsibility.
+- Use `providedIn: 'root'` for singleton services.
+- Use the `inject()` function instead of constructor injection.

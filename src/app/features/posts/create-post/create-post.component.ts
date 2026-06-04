@@ -1,4 +1,4 @@
-import { Component, inject, signal, output } from '@angular/core';
+import { Component, inject, signal, output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { PostService } from '../../../core/services/post.service';
@@ -11,7 +11,8 @@ import { CardComponent } from '../../../shared/components/card/card.component';
   selector: 'app-create-post',
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent],
   templateUrl: './create-post.component.html',
-  styleUrl: './create-post.component.scss'
+  styleUrl: './create-post.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePostComponent {
   private fb = inject(FormBuilder);

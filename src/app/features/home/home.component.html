@@ -40,12 +40,7 @@
       <div class="flex-1 flex flex-row w-full max-w-6xl mx-auto">
         <!-- Feed Content -->
         <main class="feed-column flex-1 w-full max-w-2xl px-4 py-6 md:py-8">
-          <div class="flex flex-row items-center justify-between mb-6 md:mb-8">
-            <h2 class="text-xl md:text-2xl font-black text-white tracking-tight uppercase">For You</h2>
-            @if (isExperimentalEnabled()) {
-              <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-amber-500/30">Experimental</span>
-            }
-          </div>
+          <h2 class="text-xl md:text-2xl font-black text-white mb-6 md:mb-8 tracking-tight uppercase">For You</h2>
 
           <app-create-post (postCreated)="loadFeed()"></app-create-post>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -7,7 +7,8 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-callback',
   imports: [CommonModule],
   templateUrl: './callback.component.html',
-  styleUrl: './callback.component.scss'
+  styleUrl: './callback.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CallbackComponent implements OnInit {
   private route = inject(ActivatedRoute);

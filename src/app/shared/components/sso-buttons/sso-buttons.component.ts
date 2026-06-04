@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { ButtonComponent } from '../button/button.component';
@@ -7,7 +7,8 @@ import { ButtonComponent } from '../button/button.component';
   selector: 'app-sso-buttons',
   imports: [CommonModule, ButtonComponent],
   templateUrl: './sso-buttons.component.html',
-  styleUrl: './sso-buttons.component.scss'
+  styleUrl: './sso-buttons.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SsoButtonsComponent {
   private authService = inject(AuthService);

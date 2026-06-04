@@ -1,23 +1,32 @@
-# Alldare Web Frontend
+# Alldare Central Entrypoint (Gateway & Frontend)
 
-Modern Angular implementation of the Alldare web platform.
+This repository serves as the unified entrypoint for the Alldare web platform, housing both the **Angular Web Frontend** and the **OpenResty API Gateway**.
 
 ## Features
-- **Modern Angular Architecture:** Uses Standalone Components and Signals for reactive state management.
-- **SSO Integration:** PKCE-based OIDC flow for secure authentication.
-- **Hydrated Feed:** Personalized subscription-based content feed.
-- **Tailwind CSS:** Responsive, utility-first styling.
+- **Consolidated Architecture:** Grouped edge routing and user interface for simpler deployment.
+- **Modern Angular:** Reactive implementation using Signals and Standalone Components (Angular v21+).
+- **Edge Security:** JWT validation and identity enrichment performed at the gateway layer using Lua.
+- **SSL Termination:** Integrated HTTPS support and automatic redirection.
+- **Tailwind CSS:** Responsive, utility-first styling (v3.4.19).
 
-## Tech Stack
-- **Framework:** Angular 19+
-- **State Management:** Angular Signals & RxJS
-- **Styling:** Tailwind CSS 4.0
-- **HTTP Client:** Angular HttpClient with Interceptors
+## Project Structure
+- `/src`: Angular source code.
+- `/gateway`: OpenResty configuration, Lua scripts, and SSL certificates.
+- `Dockerfile`: Multi-stage build (Angular Build -> OpenResty Bundle).
 
 ## Local Development
 1. `npm install`
-2. `npm run start`
+2. `npm run start` (Frontend only, for development)
 
-## Production Build
-The project is designed to be built as a static export and served via the API Gateway.
-`npm run build` generates the output in `dist/alldare-frontend/browser`.
+## Deployment
+The project is built as a single container image using the root `Dockerfile`.
+```bash
+docker build -t alldare-frontend .
+```
+This image serves the static Angular assets and acts as the reverse proxy for all backend microservices.
+
+## Technical Stack
+- **Framework:** Angular v21+
+- **Gateway:** OpenResty (Nginx + Lua)
+- **Styling:** Tailwind CSS v3.4.19
+- **Build Tool:** Angular CLI / Esbuild
