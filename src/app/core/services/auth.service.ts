@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Account } from '../models/account.model';
 import { RegisterRequest, LoginResponse } from '../models/auth.model';
-import { tap, Observable } from 'rxjs';
+import { tap, Observable, switchMap, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class AuthService {
   token = computed(() => this._token());
   isLoading = computed(() => this._isLoading());
   isAuthenticated = computed(() => !!this._token());
+  isStaff = computed(() => {
+    const user = this._user();
+    if (!user) return false;
+    return user.roles.some(role => ['ADMIN', 'MOD'].includes(role));
+  });
 
   private readonly TOKEN_KEY = 'auth_token';
 
@@ -49,11 +54,9 @@ export class AuthService {
     }
   }
 
-  login(data: RegisterRequest): Observable<LoginResponse> {
+  login(data: RegisterRequest): Observable<Account> {
     return this.http.post<LoginResponse>('/api/v1/auth/login', data).pipe(
-      tap(res => {
-        this.setSession(res.accessToken);
-      })
+      switchMap(res => this.setSession(res.accessToken))
     );
   }
 
@@ -63,12 +66,12 @@ export class AuthService {
     );
   }
 
-  setSession(token: string) {
+  setSession(token: string): Observable<Account> {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.TOKEN_KEY, token);
     }
     this._token.set(token);
-    this.fetchMe().subscribe();
+    return this.fetchMe();
   }
 
   logout() {
@@ -97,7 +100,17 @@ export class AuthService {
     return `/oauth2/authorization/github`;
   }
 
-  exchangeCodeForToken(code: string): Observable<LoginResponse> {
+  // --- Admin API ---
+  
+  getUsers(page = 0, size = 20): Observable<any> {
+    return this.http.get<any>(`/api/v1/admin/users?page=${page}&size=${size}`);
+  }
+
+  updateUserStatus(id: string, status: string): Observable<Account> {
+    return this.http.patch<Account>(`/api/v1/admin/users/${id}/status`, { status });
+  }
+
+  exchangeCodeForToken(code: string): Observable<Account> {
     const redirectUri = window.location.origin + "/api/auth/callback/alldare";
     const params = {
       grant_type: 'authorization_code',
@@ -112,11 +125,12 @@ export class AuthService {
     return this.http.post<LoginResponse>('/oauth2/token', body, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).pipe(
-      tap(res => {
+      switchMap(res => {
         const token = res.accessToken || res.access_token;
         if (token) {
-          this.setSession(token);
+          return this.setSession(token);
         }
+        throw new Error('No token received');
       })
     );
   }

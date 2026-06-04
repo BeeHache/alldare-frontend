@@ -20,7 +20,11 @@ export class CallbackComponent implements OnInit {
     if (code) {
       this.authService.exchangeCodeForToken(code).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          if (this.authService.isStaff()) {
+            this.router.navigate(['/control-panel']);
+          } else {
+            this.router.navigate(['/']);
+          }
         },
         error: (err) => {
           console.error('SSO Callback failed', err);

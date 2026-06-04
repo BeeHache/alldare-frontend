@@ -1,0 +1,88 @@
+<div class="user-management-container">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h2 class="text-3xl font-black text-white tracking-tight uppercase">User Management</h2>
+      <p class="text-slate-400 font-medium">Review and manage platform accounts</p>
+    </div>
+  </div>
+
+  <app-card [className]="'border-slate-800 p-0 overflow-hidden'">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-slate-900/50 border-b border-slate-800">
+            <th class="p-4 text-xs font-black text-slate-500 uppercase tracking-widest">User</th>
+            <th class="p-4 text-xs font-black text-slate-500 uppercase tracking-widest">Type</th>
+            <th class="p-4 text-xs font-black text-slate-500 uppercase tracking-widest">Status</th>
+            <th class="p-4 text-xs font-black text-slate-500 uppercase tracking-widest">Roles</th>
+            <th class="p-4 text-xs font-black text-slate-500 uppercase tracking-widest text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          @if (isLoading()) {
+            @for (i of [1,2,3,4,5]; track i) {
+              <tr>
+                <td colspan="5" class="p-4">
+                  <div class="h-8 bg-slate-800 animate-pulse rounded-lg"></div>
+                </td>
+              </tr>
+            }
+          } @else {
+            @for (user of users(); track user.id) {
+              <tr class="hover:bg-slate-800/20 transition-colors">
+                <td class="p-4">
+                  <div class="flex flex-col">
+                    <span class="text-white font-bold">{{ user.login }}</span>
+                    <span class="text-xs text-slate-500 font-medium">{{ user.provider }} • {{ user.id.substring(0, 8) }}</span>
+                  </div>
+                </td>
+                <td class="p-4">
+                  <span 
+                    class="px-2 py-1 rounded text-[10px] font-black uppercase tracking-tight border"
+                    [class]="user.accountType === 'ADMIN' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-blue-500/10 text-blue-500 border-blue-500/20'"
+                  >
+                    {{ user.accountType }}
+                  </span>
+                </td>
+                <td class="p-4">
+                  <span 
+                    class="px-2 py-1 rounded text-[10px] font-black uppercase tracking-tight border"
+                    [class]="getStatusClass(user.status)"
+                  >
+                    {{ user.status }}
+                  </span>
+                </td>
+                <td class="p-4">
+                  <div class="flex gap-1 flex-wrap">
+                    @for (role of user.roles; track role) {
+                      <span class="text-[10px] font-bold text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">{{ role }}</span>
+                    }
+                  </div>
+                </td>
+                <td class="p-4 text-right">
+                  <div class="flex justify-end gap-2">
+                    @if (user.status === 'ACTIVE') {
+                      <app-button 
+                        title="Ban" 
+                        variant="outline" 
+                        className="h-8 px-3 text-[10px] text-red-500 border-red-500/30 hover:bg-red-500/10 w-auto"
+                        (onPress)="updateStatus(user.id, 'BANNED')"
+                      ></app-button>
+                    } @else {
+                      <app-button 
+                        title="Activate" 
+                        variant="primary" 
+                        className="h-8 px-3 text-[10px] w-auto"
+                        (onPress)="updateStatus(user.id, 'ACTIVE')"
+                      ></app-button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-card>
+</div>
