@@ -4,8 +4,8 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { CallbackComponent } from './features/auth/callback/callback.component';
 import { AdminLoginComponent } from './features/admin/login/login.component';
-import { ControlPanelComponent } from './features/control-panel/control-panel.component';
-import { UserManagementComponent } from './features/control-panel/user-management/user-management.component';
+import { ControlPanelComponent } from './features/admin/dashboard/control-panel.component';
+import { UserManagementComponent } from './features/admin/user-management/user-management.component';
 import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'auth/register', component: RegisterComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   { 
-    path: 'control-panel', 
+    path: 'admin', 
     component: ControlPanelComponent,
     canActivate: [adminGuard],
     children: [

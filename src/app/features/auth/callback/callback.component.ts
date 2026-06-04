@@ -21,7 +21,7 @@ export class CallbackComponent implements OnInit {
       this.authService.exchangeCodeForToken(code).subscribe({
         next: () => {
           if (this.authService.isStaff()) {
-            this.router.navigate(['/control-panel']);
+            this.router.navigate(['/admin']);
           } else {
             this.router.navigate(['/']);
           }

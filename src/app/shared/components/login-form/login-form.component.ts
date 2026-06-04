@@ -42,7 +42,7 @@ export class LoginFormComponent {
     this.authService.login({ login, password }).subscribe({
       next: () => {
         if (this.authService.isStaff()) {
-          this.router.navigate(['/control-panel']);
+          this.router.navigate(['/admin']);
         } else {
           this.router.navigate(['/']);
         }
