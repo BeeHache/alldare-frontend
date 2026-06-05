@@ -7,6 +7,18 @@
     
     <nav class="flex-1 p-4 space-y-2">
       <a 
+        routerLink="/admin" 
+        [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="bg-blue-600/10 text-blue-500 border-blue-600/30"
+        class="flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white transition-all border border-transparent"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="font-bold text-sm">Dashboard Overview</span>
+      </a>
+
+      <a 
         routerLink="users" 
         routerLinkActive="bg-blue-600/10 text-blue-500 border-blue-600/30"
         class="flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white transition-all border border-transparent"
