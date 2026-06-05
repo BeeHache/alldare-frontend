@@ -20,7 +20,10 @@ FROM openresty/openresty:alpine
 # opm needs perl and curl
 RUN apk add --no-cache perl curl \
     && opm get SkyLothar/lua-resty-jwt \
-    && opm get ledgetech/lua-resty-http
+    && opm get ledgetech/lua-resty-http \
+    && find /usr/local/openresty -name "*.lua" -exec sed -i 's/EVP_MD_CTX_create/EVP_MD_CTX_new/g' {} + \
+    && find /usr/local/openresty -name "*.lua" -exec sed -i 's/EVP_MD_CTX_destroy/EVP_MD_CTX_free/g' {} +
+
 
 # Copy configurations from the new gateway/ directory
 RUN rm /etc/nginx/conf.d/default.conf
