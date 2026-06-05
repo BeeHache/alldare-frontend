@@ -25,7 +25,10 @@ export class AuthService {
   isStaff = computed(() => {
     const user = this._user();
     if (!user) return false;
-    return user.roles.some(role => ['ADMIN', 'MOD'].includes(role));
+    return user.roles.some(role => {
+      const roleName = typeof role === 'string' ? role : role.name;
+      return ['ADMIN', 'MOD', 'MODERATOR'].includes(roleName.toUpperCase());
+    });
   });
 
   private readonly TOKEN_KEY = 'auth_token';
@@ -69,6 +72,7 @@ export class AuthService {
   setSession(token: string): Observable<Account> {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.TOKEN_KEY, token);
+      document.cookie = `alldare_session=${token}; path=/; secure; samesite=strict`;
     }
     this._token.set(token);
     return this.fetchMe();
@@ -77,6 +81,7 @@ export class AuthService {
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.TOKEN_KEY);
+      document.cookie = 'alldare_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     }
     this._token.set(null);
     this._user.set(null);

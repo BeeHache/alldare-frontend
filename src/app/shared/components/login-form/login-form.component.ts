@@ -1,6 +1,6 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { InputComponent } from '../input/input.component';
 import { ButtonComponent } from '../button/button.component';
@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 export class LoginFormComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   loginValue = signal('');
   passwordValue = signal('');
@@ -40,9 +41,11 @@ export class LoginFormComponent {
     this.error.set('');
 
     this.authService.login({ login, password }).subscribe({
-      next: () => {
+      next: (user) => {
+        console.log('Login successful for user:', user.login, 'isStaff:', this.authService.isStaff());
         if (this.authService.isStaff()) {
-          this.router.navigate(['/admin']);
+          const returnUrl = this.route.snapshot.queryParamMap.get('url') || '/admin';
+          this.router.navigateByUrl(returnUrl);
         } else {
           this.router.navigate(['/']);
         }
