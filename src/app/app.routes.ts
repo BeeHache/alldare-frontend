@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
-import { CallbackComponent } from './features/auth/callback/callback.component';
+import { AuthCallbackComponent } from './features/auth/callback/callback.component';
 import { AdminLoginComponent } from './features/admin/login/login.component';
 import { ControlPanelComponent } from './features/admin/dashboard/control-panel.component';
 import { UserManagementComponent } from './features/admin/user-management/user-management.component';
@@ -10,9 +10,10 @@ import { AdminOverviewComponent } from './features/admin/overview/overview.compo
 import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
+  { path: 'auth/callback', component: AuthCallbackComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   { 
     path: 'admin', 
@@ -23,6 +24,5 @@ export const routes: Routes = [
       { path: '', component: AdminOverviewComponent, pathMatch: 'full' }
     ]
   },
-  { path: 'api/auth/callback/alldare', component: CallbackComponent },
   { path: '**', redirectTo: '' }
 ];

@@ -72,7 +72,6 @@ export class AuthService {
   setSession(token: string): Observable<Account> {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.TOKEN_KEY, token);
-      document.cookie = `alldare_session=${token}; path=/; secure; samesite=strict`;
     }
     this._token.set(token);
     return this.fetchMe();
@@ -81,18 +80,9 @@ export class AuthService {
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.TOKEN_KEY);
-      document.cookie = 'alldare_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     }
     this._token.set(null);
     this._user.set(null);
-  }
-
-  getSsoUrl(): string {
-    const clientId = "alldare-web";
-    const redirectUri = window.location.origin + "/api/auth/callback/alldare";
-    const state = Math.random().toString(36).substring(7);
-    // Note: In production, we'd want to store 'state' and verify it in the callback
-    return `/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid%20profile&state=${state}`;
   }
 
   getGoogleSsoUrl(): string {
@@ -113,30 +103,5 @@ export class AuthService {
 
   updateUserStatus(id: string, status: string): Observable<Account> {
     return this.http.patch<Account>(`/api/v1/admin/users/${id}/status`, { status });
-  }
-
-  exchangeCodeForToken(code: string): Observable<Account> {
-    const redirectUri = window.location.origin + "/api/auth/callback/alldare";
-    const params = {
-      grant_type: 'authorization_code',
-      code: code,
-      client_id: 'alldare-web',
-      redirect_uri: redirectUri
-    };
-
-    // Note: backend expects x-www-form-urlencoded for standard OAuth2 token endpoint
-    const body = new URLSearchParams(params).toString();
-    
-    return this.http.post<LoginResponse>('/oauth2/token', body, {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).pipe(
-      switchMap(res => {
-        const token = res.accessToken || res.access_token;
-        if (token) {
-          return this.setSession(token);
-        }
-        throw new Error('No token received');
-      })
-    );
   }
 }

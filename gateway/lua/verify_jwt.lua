@@ -8,8 +8,10 @@ if not payload then
     return ngx.exit(401)
 end
 
--- Inject headers for downstream services
-ngx.req.set_header("X-User-ID", payload.userId or payload.sub or "anonymous")
+-- Inject headers for downstream services and expose to UI
+local user_id = payload.userId or payload.sub or "anonymous"
+ngx.req.set_header("X-User-ID", user_id)
+ngx.header["X-User-ID"] = user_id
 
 if payload.roles then
     local roles = payload.roles
@@ -17,4 +19,5 @@ if payload.roles then
         roles = table.concat(roles, " ")
     end
     ngx.req.set_header("X-User-Roles", roles)
+    ngx.header["X-User-Roles"] = roles
 end

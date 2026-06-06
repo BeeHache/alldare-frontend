@@ -14,6 +14,8 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 export class UserManagementComponent implements OnInit {
   private authService = inject(AuthService);
 
+  readonly DEFAULT_ADMIN_ID = '00000000-0000-0000-0000-000000000001';
+
   users = signal<any[]>([]);
   isLoading = signal(false);
 

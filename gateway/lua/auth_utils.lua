@@ -4,20 +4,13 @@ local cjson = require("cjson")
 local _M = {}
 
 function _M.get_token()
-    -- 1. Try Authorization Header
+    -- Try Authorization Header
     local auth_header = ngx.var.http_Authorization
     if auth_header then
         local _, _, token = string.find(auth_header, "Bearer%s+(.+)")
         if token then
             return token
         end
-    end
-
-    -- 2. Try Cookie
-    local cookie_name = "alldare_session"
-    local token = ngx.var["cookie_" .. cookie_name]
-    if token then
-        return token
     end
 
     return nil
