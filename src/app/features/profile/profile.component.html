@@ -1,0 +1,81 @@
+<div class="profile-wrapper flex flex-col min-h-screen">
+  <!-- Top Nav -->
+  <nav class="brand-nav h-16 flex flex-row items-center justify-between px-4 md:px-6 sticky top-0 z-50">
+    <a routerLink="/" class="text-xl md:text-2xl font-black text-white tracking-tighter cursor-pointer">ALLDARE</a>
+    <div class="flex flex-row items-center gap-2 md:gap-4">
+      @if (authService.user()) {
+        <a routerLink="/profile" class="text-slate-400 hover:text-white hidden lg:inline font-semibold text-sm">Welcome, {{ authService.user()?.login }}</a>
+        <app-button 
+          title="Logout" 
+          (onPress)="authService.logout()" 
+          variant="outline" 
+          className="px-3 md:px-4 h-9 w-20 md:w-24 text-[10px] md:text-xs font-bold"
+        ></app-button>
+      }
+    </div>
+  </nav>
+
+  <!-- Main Profile Content -->
+  <div class="profile-container max-w-4xl mx-auto px-4 py-8 w-full">
+    <!-- Profile Header Card (Glassmorphism + Neon Border) -->
+    <div class="glass-card neon-border mb-8 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <div class="avatar-circle overflow-hidden flex items-center justify-center">
+          @if (profile()?.avatarUrl) {
+            <img [src]="profile()?.avatarUrl" class="w-full h-full object-cover rounded-full" alt="Avatar" />
+          } @else {
+            <span class="text-4xl text-white font-bold">
+              {{ (profile()?.displayName || profile()?.username || profileId() || authService.user()?.login || 'U').substring(0, 2).toUpperCase() }}
+            </span>
+          }
+        </div>
+        <div class="text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-white">
+            {{ profile()?.displayName || profile()?.username || (profileId() ? 'User ' + profileId()?.substring(0, 8) : (authService.user()?.login || 'My Profile')) }}
+          </h2>
+          <p class="text-gray-400 text-sm mt-1">
+            {{ profile()?.bio || (profileId() ? 'Digital Creator • Explorer' : 'Alldare Member • Designing Tomorrow') }}
+          </p>
+          <div class="stats-row flex justify-center md:justify-start gap-6 mt-4 text-white">
+            <span><strong>{{ userPosts().length }}</strong> Posts</span>
+            <span><strong>{{ profile()?.followerCount || '0' }}</strong> Followers</span>
+            <span><strong>{{ profile()?.followingCount || '0' }}</strong> Following</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="action-buttons flex gap-3">
+        @if (!profileId()) {
+          <app-button variant="primary">Edit Profile</app-button>
+        } @else {
+          <app-button variant="primary">Follow</app-button>
+        }
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-container flex border-b border-gray-800 mb-6 gap-6 text-gray-400">
+      <button class="tab-button active text-white border-b-2 border-cyan-500 pb-2">Posts</button>
+      <button class="tab-button pb-2">Media</button>
+      <button class="tab-button pb-2">Tags</button>
+    </div>
+
+    <!-- Feed -->
+    @if (isLoading()) {
+      <div class="space-y-6">
+        <app-post-skeleton></app-post-skeleton>
+        <app-post-skeleton></app-post-skeleton>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @for (post of userPosts(); track post.id) {
+          <app-post-card [post]="post" (postDeleted)="onPostDeleted($event)"></app-post-card>
+        } @empty {
+          <div class="col-span-full text-center text-gray-500 py-12">
+            No posts published yet.
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

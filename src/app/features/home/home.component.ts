@@ -41,4 +41,8 @@ export class HomeComponent implements OnInit {
       });
     }
   }
+
+  onPostDeleted(postId: string) {
+    this.feed.update(posts => posts.filter(p => p.id !== postId));
+  }
 }

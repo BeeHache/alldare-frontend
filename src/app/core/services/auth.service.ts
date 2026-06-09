@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Account } from '../models/account.model';
 import { RegisterRequest, LoginResponse } from '../models/auth.model';
-import { tap, Observable, switchMap, map } from 'rxjs';
+import { ProfileResponse } from '../models/profile.model';
+import { tap, Observable, switchMap, map, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,13 @@ export class AuthService {
   // State using Signals
   private _user = signal<Account | null>(null);
   private _token = signal<string | null>(null);
+  private _profile = signal<ProfileResponse | null>(null);
   private _isLoading = signal<boolean>(true);
 
   // Computed properties
   user = computed(() => this._user());
   token = computed(() => this._token());
+  currentUserProfile = computed(() => this._profile());
   isLoading = computed(() => this._isLoading());
   isAuthenticated = computed(() => !!this._token());
   isStaff = computed(() => {
@@ -65,7 +68,16 @@ export class AuthService {
 
   fetchMe(): Observable<Account> {
     return this.http.get<Account>('/api/v1/auth/me').pipe(
-      tap(user => this._user.set(user))
+      tap(user => this._user.set(user)),
+      switchMap(user => this.http.get<ProfileResponse>('/api/v1/profiles/me').pipe(
+        tap(profile => this._profile.set(profile)),
+        catchError(err => {
+          console.error('Failed to fetch user profile:', err);
+          this._profile.set(null);
+          return of(null);
+        }),
+        map(() => user)
+      ))
     );
   }
 
@@ -83,6 +95,7 @@ export class AuthService {
     }
     this._token.set(null);
     this._user.set(null);
+    this._profile.set(null);
   }
 
   getGoogleSsoUrl(): string {

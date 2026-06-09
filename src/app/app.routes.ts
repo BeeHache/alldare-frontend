@@ -8,6 +8,7 @@ import { ControlPanelComponent } from './features/admin/dashboard/control-panel.
 import { UserManagementComponent } from './features/admin/user-management/user-management.component';
 import { AdminOverviewComponent } from './features/admin/overview/overview.component';
 import { adminGuard } from './core/guards/admin.guard';
+import { ProfileComponent } from './features/profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -24,5 +25,7 @@ export const routes: Routes = [
       { path: '', component: AdminOverviewComponent, pathMatch: 'full' }
     ]
   },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:authorId', component: ProfileComponent },
   { path: '**', redirectTo: '' }
 ];

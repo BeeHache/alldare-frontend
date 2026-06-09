@@ -13,6 +13,9 @@ export interface PostResponse {
   publishedAt: string;
   createdAt: string;
   updatedAt: string;
+  authorDisplayName?: string;
+  authorUsername?: string;
+  authorAvatarUrl?: string;
 }
 
 export interface TextPostContent {
