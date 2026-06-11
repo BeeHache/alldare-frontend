@@ -17,6 +17,18 @@
 
   <!-- Main Profile Content -->
   <div class="profile-container max-w-4xl mx-auto px-4 py-8 w-full">
+    <!-- Profile Banner -->
+    <div class="profile-banner-container rounded-2xl overflow-hidden mb-6 relative h-48 md:h-60 border border-white/10">
+      @if (profile()?.bannerUrl) {
+        <img [src]="profile()?.bannerUrl" class="w-full h-full object-cover" alt="Profile Banner" />
+      } @else {
+        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-950 via-slate-900 to-fuchsia-950">
+          <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+          <div class="text-cyan-400/30 text-xs tracking-widest font-mono uppercase">Default Banner</div>
+        </div>
+      }
+    </div>
+
     <!-- Profile Header Card (Glassmorphism + Neon Border) -->
     <div class="glass-card neon-border mb-8 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex flex-col md:flex-row items-center gap-6">
@@ -46,7 +58,7 @@
       
       <div class="action-buttons flex gap-3">
         @if (!profileId()) {
-          <app-button variant="primary">Edit Profile</app-button>
+          <app-button variant="primary" (onPress)="openEditModal()">Edit Profile</app-button>
         } @else {
           <app-button variant="primary">Follow</app-button>
         }
@@ -79,3 +91,98 @@
     }
   </div>
 </div>
+
+<!-- Edit Profile Modal Overlay (Glassmorphism + Smooth Transitions) -->
+@if (showEditModal()) {
+  <div class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="modal-container glass-card neon-border max-w-lg w-full p-6 relative flex flex-col gap-6 overflow-hidden">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+        <h3 class="text-2xl font-bold text-white">Edit Profile</h3>
+        <button (click)="closeEditModal()" class="text-gray-400 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-4 overflow-y-auto max-h-[70vh] pr-2">
+        <!-- Display Name -->
+        <app-input
+          label="Display Name"
+          [value]="editDisplayName()"
+          (valueChange)="editDisplayName.set($event)"
+          placeholder="Your name"
+        ></app-input>
+
+        <!-- Username -->
+        <div class="flex flex-col mb-4">
+          <app-input
+            label="Username"
+            [value]="editUsername()"
+            (valueChange)="onUsernameChange($event)"
+            placeholder="username"
+            [error]="usernameError() || ''"
+          ></app-input>
+          <div class="text-xs px-1 -mt-2">
+            @if (usernameChecking()) {
+              <span class="text-cyan-400 flex items-center gap-1.5 animate-pulse">
+                <svg class="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Checking availability...
+              </span>
+            } @else if (usernameAvailable()) {
+              <span class="text-emerald-400">Username is available!</span>
+            }
+          </div>
+        </div>
+
+        <!-- Avatar URL -->
+        <app-input
+          label="Avatar URL"
+          [value]="editAvatarUrl()"
+          (valueChange)="editAvatarUrl.set($event)"
+          placeholder="https://example.com/avatar.png"
+        ></app-input>
+
+        <!-- Banner URL -->
+        <app-input
+          label="Banner URL"
+          [value]="editBannerUrl()"
+          (valueChange)="editBannerUrl.set($event)"
+          placeholder="https://example.com/banner.png"
+        ></app-input>
+
+        <!-- Bio -->
+        <div class="input-container flex flex-col mb-4">
+          <label class="input-label text-sm font-semibold text-slate-400 mb-2">Bio</label>
+          <textarea
+            [ngModel]="editBio()"
+            (ngModelChange)="editBio.set($event)"
+            placeholder="Tell us about yourself..."
+            rows="4"
+            class="w-full bg-[#1e293b] border border-[#334155] rounded-xl p-3 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:bg-[#0f172a] focus:ring-4 focus:ring-blue-500/15 transition-all resize-none"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-gray-800">
+        <app-button
+          title="Cancel"
+          variant="outline"
+          (onPress)="closeEditModal()"
+          className="px-5 h-11 text-sm font-semibold"
+        ></app-button>
+        <app-button
+          title="Save Profile"
+          variant="primary"
+          [loading]="isSaving()"
+          [disabled]="!!usernameError() || usernameChecking() || isSaving()"
+          (onPress)="saveProfile()"
+          className="px-5 h-11 text-sm font-semibold min-w-[120px]"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+}

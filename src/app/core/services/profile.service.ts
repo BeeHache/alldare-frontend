@@ -20,4 +20,8 @@ export class ProfileService {
   getProfileById(id: string): Observable<ProfileResponse> {
     return this.http.get<ProfileResponse>(`/api/v1/profiles/id/${id}`);
   }
+
+  updateMyProfile(request: Partial<ProfileResponse>): Observable<ProfileResponse> {
+    return this.http.patch<ProfileResponse>('/api/v1/profiles/me', request);
+  }
 }

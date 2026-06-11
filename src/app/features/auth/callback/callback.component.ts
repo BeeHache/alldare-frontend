@@ -31,10 +31,15 @@ export class AuthCallbackComponent implements OnInit {
 
     this.route.queryParamMap.subscribe(params => {
       const token = params.get('token');
+      const isNew = params.get('newRegistration') === 'true';
       if (token) {
         this.authService.setSession(token).subscribe({
           next: () => {
-            this.router.navigate(['/']);
+            if (isNew) {
+              this.router.navigate(['/profile'], { queryParams: { edit: 'true' } });
+            } else {
+              this.router.navigate(['/']);
+            }
           },
           error: (err) => {
             console.error('Failed to initialize session', err);

@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/auth/login/login.component';
-import { RegisterComponent } from './features/auth/register/register.component';
 import { AuthCallbackComponent } from './features/auth/callback/callback.component';
 import { AdminLoginComponent } from './features/admin/login/login.component';
 import { ControlPanelComponent } from './features/admin/dashboard/control-panel.component';
@@ -13,7 +12,7 @@ import { ProfileComponent } from './features/profile/profile.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent },
-  { path: 'auth/register', component: RegisterComponent },
+  { path: 'auth/register', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'auth/callback', component: AuthCallbackComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   { 

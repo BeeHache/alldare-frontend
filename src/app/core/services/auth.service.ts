@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Account } from '../models/account.model';
 import { RegisterRequest, LoginResponse } from '../models/auth.model';
 import { ProfileResponse } from '../models/profile.model';
-import { tap, Observable, switchMap, map, catchError, of } from 'rxjs';
+import { tap, Observable, switchMap, map, catchError, of, timer, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -66,16 +66,32 @@ export class AuthService {
     );
   }
 
+  private fetchProfileWithRetry(): Observable<ProfileResponse | null> {
+    const delays = [250, 500, 1000];
+    return this.http.get<ProfileResponse>('/api/v1/profiles/me').pipe(
+      retry({
+        count: delays.length,
+        delay: (error, retryCount) => {
+          if (error.status === 404) {
+            const delayMs = delays[retryCount - 1];
+            console.warn(`Profile not found (404), retrying in ${delayMs}ms... (attempt ${retryCount}/${delays.length})`);
+            return timer(delayMs);
+          }
+          throw error;
+        }
+      }),
+      catchError(err => {
+        console.error('Failed to fetch user profile after retries:', err);
+        return of(null);
+      })
+    );
+  }
+
   fetchMe(): Observable<Account> {
     return this.http.get<Account>('/api/v1/auth/me').pipe(
       tap(user => this._user.set(user)),
-      switchMap(user => this.http.get<ProfileResponse>('/api/v1/profiles/me').pipe(
+      switchMap(user => this.fetchProfileWithRetry().pipe(
         tap(profile => this._profile.set(profile)),
-        catchError(err => {
-          console.error('Failed to fetch user profile:', err);
-          this._profile.set(null);
-          return of(null);
-        }),
         map(() => user)
       ))
     );
@@ -96,6 +112,10 @@ export class AuthService {
     this._token.set(null);
     this._user.set(null);
     this._profile.set(null);
+  }
+
+  updateProfileSignal(profile: ProfileResponse) {
+    this._profile.set(profile);
   }
 
   getGoogleSsoUrl(): string {
