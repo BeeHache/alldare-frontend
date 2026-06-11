@@ -8,6 +8,7 @@ import { UserManagementComponent } from './features/admin/user-management/user-m
 import { AdminOverviewComponent } from './features/admin/overview/overview.component';
 import { adminGuard } from './core/guards/admin.guard';
 import { ProfileComponent } from './features/profile/profile.component';
+import { MediaManagementComponent } from './features/media/media-management.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -26,5 +27,6 @@ export const routes: Routes = [
   },
   { path: 'profile', component: ProfileComponent },
   { path: 'profile/:authorId', component: ProfileComponent },
+  { path: 'media', component: MediaManagementComponent },
   { path: '**', redirectTo: '' }
 ];

@@ -59,6 +59,7 @@
       <div class="action-buttons flex gap-3">
         @if (!profileId()) {
           <app-button variant="primary" (onPress)="openEditModal()">Edit Profile</app-button>
+          <app-button variant="outline" routerLink="/media">Manage Media</app-button>
         } @else {
           <app-button variant="primary">Follow</app-button>
         }
