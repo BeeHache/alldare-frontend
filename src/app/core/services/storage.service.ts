@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserMediaResponse } from '../models/media.model';
 
@@ -26,6 +26,9 @@ export class StorageService {
 
   uploadFileDirect(uploadUrl: string, file: File): Observable<HttpEvent<any>> {
     const req = new HttpRequest('PUT', uploadUrl, file, {
+      headers: new HttpHeaders({
+        'Content-Type': file.type
+      }),
       reportProgress: true,
       responseType: 'text'
     });
