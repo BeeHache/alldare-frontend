@@ -20,7 +20,8 @@ export interface PostResponse {
 
 export interface TextPostContent {
   text: string;
-  tags?: string[];
+  hashtags?: string[];
+  mentions?: string[];
 }
 
 export interface PostRequest {

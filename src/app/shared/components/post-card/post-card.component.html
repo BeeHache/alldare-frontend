@@ -127,12 +127,18 @@
     }
   </div>
 
-  <!-- Tags -->
-  @if (resolvedPost().content['tags'] && resolvedPost().content['tags'].length > 0) {
+  <!-- Hashtags & Mentions -->
+  @if ((resolvedPost().content['hashtags'] && resolvedPost().content['hashtags'].length > 0) || 
+       (resolvedPost().content['mentions'] && resolvedPost().content['mentions'].length > 0)) {
     <div class="flex flex-row flex-wrap mt-2 gap-2">
-      @for (tag of resolvedPost().content['tags']; track tag) {
+      @for (hashtag of resolvedPost().content['hashtags']; track hashtag) {
         <span class="tag-badge">
-          #{{ tag }}
+          #{{ hashtag }}
+        </span>
+      }
+      @for (mention of resolvedPost().content['mentions']; track mention) {
+        <span class="mention-badge text-cyan-400 font-semibold bg-cyan-950/40 px-2 py-0.5 rounded text-xs">
+          @{{ mention }}
         </span>
       }
     </div>

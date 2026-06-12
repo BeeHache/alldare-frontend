@@ -45,7 +45,8 @@ export class CreatePostComponent {
       postType: PostType.TEXT,
       content: {
         text: this.postForm.value.text,
-        tags: this.extractTags(this.postForm.value.text || '')
+        hashtags: this.extractHashtags(this.postForm.value.text || ''),
+        mentions: this.extractMentions(this.postForm.value.text || '')
       },
       publishedAt: new Date().toISOString()
     };
@@ -63,8 +64,13 @@ export class CreatePostComponent {
     });
   }
 
-  private extractTags(text: string): string[] {
-    const tags = text.match(/#[\w]+/g);
-    return tags ? tags.map(t => t.substring(1)) : [];
+  private extractHashtags(text: string): string[] {
+    const hashtags = text.match(/#[\w]+/g);
+    return hashtags ? hashtags.map(h => h.substring(1)) : [];
+  }
+
+  private extractMentions(text: string): string[] {
+    const mentions = text.match(/@[\w]+/g);
+    return mentions ? mentions.map(m => m.substring(1)) : [];
   }
 }
